@@ -4,7 +4,13 @@
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "hardhat": "^2.26.3"
   },
+  "scripts": {
+    "deploy": "node ignition/modules/deploy.js",
+    "signVoucher": "node backend/signVoucher.js"
+  },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.4.0"
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.3",
+    "fs": "^0.0.1-security"
   }
 }

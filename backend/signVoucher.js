@@ -1,6 +1,8 @@
 // backend/signVoucher.js
 require("dotenv").config();
 const { ethers } = require("ethers");
+const fs = require("fs");
+const path = require("path");
 
 /**
  * Sign a cumulative voucher for `userAddress` for `cumulativeAmountTokens` (human units).
@@ -49,17 +51,18 @@ async function signVoucher(userAddress, cumulativeAmountTokens, hubAddress) {
 // CLI usage: node backend/signVoucher.js 0xUser 4200 0xHub
 if (require.main === module) {
   (async () => {
-    const args = process.argv.slice(2);
-    if (args.length < 3) {
-      console.log("Usage: node backend/signVoucher.js <userAddress> <cumulativeTokens> <hubAddress>");
-      process.exit(1);
-    }
-    
-    const [userAddress, cumulativeTokens, hubAddress] = args;
-    
     try {
-      const out = await signVoucher(userAddress, cumulativeTokens, hubAddress);
+        const user = process.env.USER_ADDRESS;
+    const tokens = process.env.CUMULATIVE_TOKENS;
+    const hub = process.env.HUB_ADDRESS;
+
+      const out = await signVoucher(user, tokens, hub);
       console.log(JSON.stringify(out, null, 2));
+      
+      // Update claimData.json with the new signature
+      const claimDataPath = path.join(__dirname, "..", "claimData.json");
+      fs.writeFileSync(claimDataPath, JSON.stringify(out, null, 2));
+      console.log("✅ Updated claimData.json with new signature");
     } catch (err) {
       console.error("Error:", err.message || err);
       process.exit(1);

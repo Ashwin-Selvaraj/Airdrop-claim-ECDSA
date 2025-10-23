@@ -74,9 +74,24 @@ async function main() {
     console.log("Transaction hash:", tx.hash);
     console.log("Waiting for confirmation...");
     
-    const receipt = await tx.wait();
-    console.log("✅ Transfer confirmed in block", receipt.blockNumber);
-    console.log("Gas used:", receipt.gasUsed?.toString?.() ?? receipt.gasUsed);
+    try {
+        const receipt = await tx.wait();
+        console.log("✅ Transfer confirmed in block", receipt.blockNumber);
+        console.log("Gas used:", receipt.gasUsed?.toString?.() ?? receipt.gasUsed);
+    } catch (rateLimitError) {
+        if (rateLimitError.message.includes("request limit reached")) {
+            console.log("⚠️  Rate limit reached, but transaction was sent!");
+            console.log("📋 Transaction hash:", tx.hash);
+            console.log("🔍 Check transaction status manually:");
+            console.log(`   https://testnet.bscscan.com/tx/${tx.hash}`);
+            console.log("⏳ Waiting 30 seconds before checking final balances...");
+            
+            // Wait and check balances without waiting for receipt
+            await new Promise(resolve => setTimeout(resolve, 30000));
+        } else {
+            throw rateLimitError;
+        }
+    }
     
     // Check final balances
     const finalDeployerBalance = await token.balanceOf(wallet.address);

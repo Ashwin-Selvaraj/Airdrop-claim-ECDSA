@@ -52,12 +52,21 @@ async function signVoucher(userAddress, cumulativeAmountTokens, hubAddress) {
 if (require.main === module) {
   (async () => {
     try {
-        const user = process.env.USER_ADDRESS;
-    const tokens = process.env.CUMULATIVE_TOKENS;
-    const hub = process.env.HUB_ADDRESS;
+      const user = process.env.USER_ADDRESS;
+      const tokens = process.env.CUMULATIVE_TOKENS;
+      // Read hub address from deployment file
+      const deploymentData = require("../deployments/BSCTestnet.json");
+      const hub = deploymentData.AshClaimHubContractAddress;
 
       const out = await signVoucher(user, tokens, hub);
       console.log(JSON.stringify(out, null, 2));
+      
+      // Check if user has already claimed this amount
+      console.log("\n📊 Claim Status:");
+      console.log(`- Cumulative Amount: ${out.cumulativeTokens} tokens`);
+      console.log(`- Amount in Wei: ${out.cumulativeAmountBase}`);
+      console.log("💡 If you get 'nothing to claim' error, you need to increase the cumulative amount");
+      console.log("💡 Try setting CUMULATIVE_TOKENS to a higher value (e.g., 1000) in your .env file");
       
       // Update claimData.json with the new signature
       const claimDataPath = path.join(__dirname, "..", "claimData.json");

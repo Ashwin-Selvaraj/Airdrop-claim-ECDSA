@@ -1,8 +1,8 @@
 {
-  "user": "0x2d07599e277c9f311Bfec4dB0e22cC4751Dd679B",
-  "cumulativeTokens": "500",
-  "cumulativeAmountBase": "500000000000000000000",
-  "hub": "0x860B76704Dfa000E6c67af07E41cD1d8D04bdbEA",
+  "user": "0x8358847c2D38F97F2Fc20cfA83F61075C4BfD14A",
+  "cumulativeTokens": "2400",
+  "cumulativeAmountBase": "2400000000000000000000",
+  "hub": "0xc01CF1C949d84921C8E333215f4bd7036A6a7EaA",
   "chainId": 97,
-  "signature": "0x1640d6232a0a5ce67e1a2dc05300663964ebcd0c3de63bbdb67f83c7fdfb5ef218f2fb338f6060b5b159c7c2d97c6171980d1845ade708d5d01103818750bb2d1c"
+  "signature": "0x0f273ecf56512dff60a2bb51642f35058eb90cfeba0ba79d53224f1f28d8a26308dd6c60eec1790d46840fc738f32d5e36fd3049bbd71394e525f6b32c3ca31b1b"
 }

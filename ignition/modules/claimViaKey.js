@@ -1,7 +1,7 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
-const { StandardMerkleTree } = require("@openzeppelin/merkle-tree");
 const {readFileSync} = require("fs");
+const path = require("path");
 
 // Load environment variables
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -41,13 +41,29 @@ async function main(){
     // Check provider readiness
     if (!provider) throw new Error("Provider initialization failed. Verify the RPC URLs.");
 
+    // Load claim data from JSON file
+    const claimDataPath = path.join(__dirname, "..", "..", "claimData.json");
+    const claimData = JSON.parse(readFileSync(claimDataPath, "utf8"));
+    
     // Create a signer (wallet)
     const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
     const hub = new ethers.Contract(CONTRACT_ADDRESS, ABI, wallet);
-    const cumulativeAmountBase = process.env.CUMULATIVE_AMOUNT_BASE;
-    const signature = process.env.SIGNATURE;
+    const cumulativeAmountBase = claimData.cumulativeAmountBase;
+    const signature = claimData.signature;
+    
+    console.log("Claim data:");
+    console.log("- User:", claimData.user);
+    console.log("- Cumulative Amount Base:", cumulativeAmountBase);
+    console.log("- Signature:", signature);
+    console.log("- Hub:", claimData.hub);
+    console.log("- Chain ID:", claimData.chainId);
+    
+    // Check if user has already claimed anything
+    const alreadyClaimed = await hub.claimedSoFar(claimData.user);
+    console.log("- Already claimed:", alreadyClaimed.toString());
+    
     console.log("Sending claimSigned transaction...");
-    const tx = await hub.claimSigned(ethers.BigInt(cumulativeAmountBase), signature);
+    const tx = await hub.claimSigned(BigInt(cumulativeAmountBase), signature);
     console.log("tx hash:", tx.hash);
     console.log("waiting for confirmation...");
     const receipt = await tx.wait();

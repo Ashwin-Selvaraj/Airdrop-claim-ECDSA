@@ -6,7 +6,9 @@
   },
   "scripts": {
     "deploy": "node ignition/modules/deploy.js",
-    "signVoucher": "node backend/signVoucher.js"
+    "signVoucher": "node backend/signVoucher.js",
+    "claimViaKey": "node ignition/modules/claimViaKey.js",
+    "transferToHub": "node ignition/modules/transferToHub.js"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.4.0",

@@ -22,6 +22,7 @@ contract Ash_ClaimHub is Ownable, ReentrancyGuard {
         token = IERC20(tokenAddr);
         signer = _signer;
     }
+    
 
     // claim using backend-signed cumulative voucher
     // signed message format: keccak256(abi.encodePacked(user, cumulativeAmount, chainId, address(this)))

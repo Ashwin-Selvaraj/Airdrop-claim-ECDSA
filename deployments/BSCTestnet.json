@@ -1,5 +1,5 @@
 {
   "network": "BSCTestnet",
-  "ASHTokenContractAddress": "0x46d2fC00cBE78839927D510F17f483E7AAdBAec3",
-  "AshClaimHubContractAddress": "0xc01CF1C949d84921C8E333215f4bd7036A6a7EaA"
+  "ASHTokenContractAddress": "0xC4D0575D823E7118FC4D53F9e2760b4Fa7787218",
+  "AshClaimHubContractAddress": "0x42e37f4E6A229574cC5b7B5532745456d7749012"
 }
